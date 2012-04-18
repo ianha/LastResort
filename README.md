@@ -1,21 +1,19 @@
-# Last Resort
-
 TODO: Write a gem description
 
-## Installation
+### Installation
 
 ```sh
 gem install last-resort
 ```
 
-## Setup
+### Setup
 
 ```sh
 last-resort new <project-name>
 ```
 This will create a configuration project with a sample scheduling file.
 
-## Example schedule.rb file
+### Example schedule.rb file
 
 ```ruby
 configure :host => "",
@@ -54,12 +52,7 @@ between :all_hours, :on => :weekends do
 end
 ```
 
-## Credit
-
-Victor Mota (@vimota)
-Scott Hyndman (@scotthyndman)
-Ian Ha (@ianpha)
-
-## Usage
-
-TODO: Write usage instructions here
+### Credit
+* Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))
+* Victor Mota ([@vimota](http://www.twitter.com/vimota))
+* Ian Ha ([@ianpha](http://www.twitter.com/ianpha))
