@@ -1,4 +1,4 @@
-Last Resort is a Ruby gem for monitoring critical emails sent by automated services ("Server down!", "Resource limit matched!", etc.) and calling your phone to tell you about them. It can be deployed in a reliable environment and perform up to 1500 emergency calls for free, using the free and trial tiers available from [context.io](http://context.io), [Twilio](http://twilio.com) and [Heroku](http://heroku.com).
+Last Resort is a Ruby gem for monitoring critical emails sent by automated services ("Server down!", "Resource limit matched!", etc.) and calling your phone to tell you about them. It can be deployed in a reliable environment and perform up to 1500 emergency calls for free, using the free and trial tiers available from [context.io](http://context.io), [twilio](http://twilio.com) and [heroku](http://heroku.com).
 
 ### Installation
 
