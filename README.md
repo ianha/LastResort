@@ -23,19 +23,16 @@ configure :host => "",
           :contextio_key => "",
           :contextio_secret => ""
 
-
 # DEFINE YOUR CONTACTS
 
 contact :ian, ""
 contact :scott, ""
 contact :victor, ""
 
-
 # DEFINE WHAT EMAILS YOU WANT TO WATCH FOR
 
 match :subject => /server down/ # rackspace ping
 match :subject => /resource limit reached/ # monit
-
 
 # DEFINE WHO TO CALL AND WHEN
 
@@ -53,6 +50,6 @@ end
 ```
 
 ### Credit
-* Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))
-* Victor Mota ([@vimota](http://www.twitter.com/vimota))
-* Ian Ha ([@ianpha](http://www.twitter.com/ianpha))
+Victor Mota ([@vimota](http://www.twitter.com/vimota))
+Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))
+Ian Ha ([@ianpha](http://www.twitter.com/ianpha))
