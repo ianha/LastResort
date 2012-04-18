@@ -1,5 +1,5 @@
 Last Resort is a Ruby gem and standalone server that monitors for critical emails (like a server going down) and
-calls your telephone to tell you about it.
+calls your phone to tell you about it.
 
 ### Installation
 
