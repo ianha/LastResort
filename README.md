@@ -3,13 +3,13 @@ Last Resort is a Ruby gem for monitoring critical emails sent by automated servi
 ### Installation
 
 ```sh
-gem install last-resort
+$ gem install last-resort
 ```
 
 ### Getting started
 
 ```sh
-last-resort new my-awesome-project
+$ last-resort new my-awesome-project
 ```
 This will create a scheduling project with a sample `my-awesome-project/config.rb` file.
 
