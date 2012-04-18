@@ -1,4 +1,5 @@
-TODO: Write a gem description
+Last Resort is a Ruby gem and standalone server that monitors for critical emails (like a server going down) and
+calls your telephone to tell you about it.
 
 ### Installation
 
@@ -6,14 +7,14 @@ TODO: Write a gem description
 gem install last-resort
 ```
 
-### Setup
+### Getting started
 
 ```sh
-last-resort new <project-name>
+last-resort new my-awesome-project
 ```
-This will create a configuration project with a sample scheduling file.
+This will create a scheduling project with a sample `my-awesome-project/config.rb` file.
 
-### Example schedule.rb file
+### Example config.rb file
 
 ```ruby
 configure :host => "",
@@ -50,6 +51,6 @@ end
 ```
 
 ### Credit
-Victor Mota ([@vimota](http://www.twitter.com/vimota))
-Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))
+Victor Mota ([@vimota](http://www.twitter.com/vimota))  
+Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))  
 Ian Ha ([@ianpha](http://www.twitter.com/ianpha))
