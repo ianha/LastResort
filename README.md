@@ -4,13 +4,22 @@ TODO: Write a gem description
 
 ## Installation
 
-    $ gem install last-resort
-    
+```sh
+gem install last-resort
+```
+
 ## Setup
 
-TODO: Write setup
+```sh
+last-resort new <project-name>
+```
+This will create a configuration project with a sample scheduling file.
 
 ## Credit
+
+Victor Mota (@vimota)
+Scott Hyndman (@scotthyndman)
+Ian Ha (@ianpha)
 
 ## Usage
 
