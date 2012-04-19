@@ -1,19 +1,22 @@
-TODO: Write a gem description
+Last Resort is a Ruby gem for monitoring critical emails sent by automated services ("Server down!", 
+"Resource limit matched!", etc.) and calling your phone to tell you about it. It can be deployed in a 
+reliable environment and perform up to 1500 emergency calls for free, using the free and trial tiers 
+available from [context.io](http://context.io), [twilio](http://twilio.com) and [heroku](http://heroku.com).
 
 ### Installation
 
 ```sh
-gem install last-resort
+$ gem install last-resort
 ```
 
-### Setup
+### Getting started
 
 ```sh
-last-resort new <project-name>
+$ last-resort new my-awesome-project
 ```
-This will create a configuration project with a sample scheduling file.
+This will create a scheduling project with a sample `my-awesome-project/config.rb` file.
 
-### Example schedule.rb file
+### Example config.rb file
 
 ```ruby
 configure :host => "",
@@ -50,6 +53,6 @@ end
 ```
 
 ### Credit
-Victor Mota ([@vimota](http://www.twitter.com/vimota))
-Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))
+Victor Mota ([@vimota](http://www.twitter.com/vimota))  
+Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))  
 Ian Ha ([@ianpha](http://www.twitter.com/ianpha))
