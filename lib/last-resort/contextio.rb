@@ -34,9 +34,9 @@ module ContextIO
 
     def url(accountId, url, *args)
       if args.empty?
-        "/#{ContextIO::VERSION}/accounts/#{accountId}/#{url}"
+        "/#{VERSION}/accounts/#{accountId}/#{url}"
       else
-        "/#{ContextIO::VERSION}/accounts/#{accountId}/#{url}?#{parametrize args}"
+        "/#{VERSION}/accounts/#{accountId}/#{url}?#{parametrize args}"
       end
     end
 

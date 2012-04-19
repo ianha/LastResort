@@ -72,4 +72,3 @@ module LastResort
 end
 
 CONFIG = LastResort::Config.new
-ap CONFIG
