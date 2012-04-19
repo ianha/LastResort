@@ -1,6 +1,9 @@
+# The exception session keeps state between twilio and context-io webhooks. Currently, the system can only handle
+# one call session at a time, although we plan to change that in future versions.
 exception_session = nil
 
-################### Sinatra endpoints for Context-IO callbacks ######################
+
+# ====== CONTEXT-IO TWILIO ENDPOINTS
 
 post '/matched_email' do
   return if LastResort::Scheduler.new.get_matching_schedule.nil?
@@ -16,7 +19,8 @@ post '/matched_email' do
   exception_session.notify
 end
 
-################### Sinatra endpoints for Twilio callbacks ###########################
+
+# ====== SINATRA TWILIO ENDPOINTS
 
 # Service check method
 get '/twilio' do

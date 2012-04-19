@@ -14,7 +14,7 @@ Dir["#{FILE_DIR}/last-resort/*.rb"].each do |file_path|
 end
 
 get "/" do
-  "Server running"
+  "Last Resort server running"
 end
 
 # LastResort::WebHookCreator.create_hooks
