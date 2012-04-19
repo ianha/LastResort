@@ -20,5 +20,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency "activesupport", "~> 3.2"
   gem.add_dependency "thor", "~> 0.14"
   gem.add_dependency "oauth", "~> 0.4"
+  gem.add_dependency "gli", "~> 1.6"
   gem.add_development_dependency "awesome_print"
 end
