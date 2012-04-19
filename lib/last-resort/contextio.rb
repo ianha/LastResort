@@ -54,12 +54,13 @@ module ContextIO
     end
 
     def parametrize(options)
-      URI.escape(options.collect do |k,v|
-        v = v.to_i if k == :since
-        v = v.join(',') if v.instance_of?(Array)
-        k = k.to_s.gsub('_', '')
-        "#{k}=#{v}"
-      end.join('&'))
+      URI.escape(
+        options.collect do |k, v|
+          v = v.to_i if k == :since
+          v = v.join(',') if v.instance_of?(Array)
+          k = k.to_s.gsub('_', '')
+          "#{k}=#{v}"
+        end.join('&'))
     end
   end
 end

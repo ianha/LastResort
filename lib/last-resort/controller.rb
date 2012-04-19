@@ -16,26 +16,19 @@ post '/matched_email' do
   exception_session.notify
 end
 
-#################    Sinatra endpoints for Twilio callbacks #########################
+################### Sinatra endpoints for Twilio callbacks ###########################
 
-# This will probably be overwritten by configuration
-#exception_session = LastResort::ExceptionSession.new([LastResort::Contact.new("Ian Ha", "+16478963060"), LastResort::Contact.new("Scott Hyndman", "+14167380604")])
-exception_session = nil
-
+# Service check method
 get '/twilio' do
   "twilio callbacks up and running!"
 end
 
-# Test stub
+# Performs a test call based on the user's configuration
 get '/twilio/test' do
   exception_session.notify
 end
 
-post '/twilio/status_callback' do
-  puts "status_callback with #{params.inspect}"
-  exception_session.call_next
-end
-
+# Method invoked to determine how the machine should interact with the user.
 post '/twilio/call' do
   content_type 'text/xml'
   puts "call with #{params.inspect}"
@@ -45,7 +38,7 @@ post '/twilio/call' do
   end
 
   response = Twilio::TwiML::Response.new do |r|
-    r.Say "hello #{exception_session.callee_name}. The following error has occured: #{exception_session.description}", :voice => 'man'
+    r.Say "Hello #{exception_session.callee_name}. The following error has occured: #{exception_session.description}", :voice => 'man'
     r.Gather :numDigits => 1, :action => "http://#{HOST}/twilio/gather_digits" do |d|
       d.Say "Please enter 1 to handle this bug that you probably didn't even create or 0 or hangup to go back to spending quality time with your family."
     end
@@ -53,6 +46,13 @@ post '/twilio/call' do
   response.text
 end
 
+# Called when a user's call ends.
+post '/twilio/status_callback' do
+  puts "status_callback with #{params.inspect}"
+  exception_session.call_next
+end
+
+# Callback to determine user input.
 post '/twilio/gather_digits' do
   puts "gather_digits with #{params.inspect}"
 

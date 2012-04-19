@@ -11,7 +11,7 @@ module LastResort
 	class Contact
 		attr_accessor :name, :number
 
-		def initialize (name = "", number = "")
+		def initialize(name = "", number = "")
 			@name = name
 			@number = number
 		end
@@ -33,9 +33,8 @@ module LastResort
 	    # Return false if call was not made
 		def call_next
 			@index += 1
-			return false if @contacts.empty? || @index >= @contacts.size ||	@handled
 
-			# @call.hangup if @call # hangup a previous call
+			return false if @contacts.empty? || @index >= @contacts.size ||	@handled
 
 			# Make the call
 			@call = @client.account.calls.create(
