@@ -1,21 +1,65 @@
-module LastResort
-  def self.handleTwilioCallback request_body
-    return if LastResort::Scheduler.new.get_matching_schedule.nil?
+require 'oauth'
+require 'json'
+require 'net/http'
 
-    contact_names = LastResort::Scheduler.new.get_matching_schedule[:contacts]
-    contacts = []
-    contact_names.each do |name|
-      contacts.push(LastResort::Contact.new(name.to_s, CONFIG.contacts[name][:phone]))
+module ContextIO
+  class Connection
+    VERSION = "2.0"
+
+    def initialize(key='', secret='', server='https://api.context.io')
+      @consumer = OAuth::Consumer.new(key, secret, {:site => server, :sheme => :header})
+      @token    = OAuth::AccessToken.new @consumer
     end
 
-    hookData = JSON.parse(request_body.read)
-    ap hookData
-    ap contacts
-    $exception_session = LastResort::ExceptionSession.new(contacts, hookData["message_data"]["subject"])
-    $exception_session.notify
-  end
-end
+    def createWebhook(accountId, parameters)
+      post accountId, 'webhooks', parameters
+    end
 
-post '/matched_email' do
-  LastResort::handleTwilioCallback request.body
+    def listWebhooks(accountId)
+      get accountId, 'webhooks'
+    end
+
+    def deleteWebhook(accountId, webhook_id)
+      delete accountId, "webhooks/#{webhook_id}"
+    end
+
+    def deleteAllWebhooks(accountId)
+      webhooks = listWebhooks(accountId)
+      webhooks.each do |webhook|
+        deleteWebhook accountId, webhook["webhook_id"]
+      end
+    end
+
+    private
+
+    def url(accountId, url, *args)
+      if args.empty?
+        "/#{ContextIO::VERSION}/accounts/#{accountId}/#{url}"
+      else
+        "/#{ContextIO::VERSION}/accounts/#{accountId}/#{url}?#{parametrize args}"
+      end
+    end
+
+    def get(accountId, url, *args)
+      response_body = @token.get(url(accountId, url, *args), "Accept" => "application/json").body
+      JSON.parse(response_body)
+    end
+
+    def post(accountId, url, parameters)
+      @token.post(url(accountId, url), parameters)
+    end
+
+    def delete(accountId, url, *args)
+      @token.delete(url(accountId, url, *args))
+    end
+
+    def parametrize(options)
+      URI.escape(options.collect do |k,v|
+        v = v.to_i if k == :since
+        v = v.join(',') if v.instance_of?(Array)
+        k = k.to_s.gsub('_', '')
+        "#{k}=#{v}"
+      end.join('&'))
+    end
+  end
 end
