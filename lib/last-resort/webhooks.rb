@@ -1,5 +1,3 @@
-require "contextio"
-
 module LastResort
   class WebHookCreator
     def self.create_hooks
