@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib/last-resort')
-
+$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib/last-resort')
+require 'version'
 require 'rubygems'
 require 'gli'
-require 'version'
 
 include GLI
 
