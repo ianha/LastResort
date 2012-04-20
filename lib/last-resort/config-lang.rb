@@ -20,6 +20,9 @@ module LastResort
     protected
 
     def run_config_in_context
+      puts "#{Dir.pwd}"
+      puts "#{File.expand_path(".")}"
+      puts File.expand_path(File.dirname(__FILE__))
       source = open(CONFIG_PATH).read
       self.instance_eval source
     end
