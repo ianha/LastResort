@@ -3,7 +3,6 @@ require "bundler/setup"
 require "sinatra"
 
 FILE_DIR = File.expand_path(File.dirname(__FILE__))
-PROJECT_ROOT = File.expand_path("#{FILE_DIR}/..")
 
 # BRING IN DEPENDENCIES
 

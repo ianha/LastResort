@@ -1,7 +1,7 @@
 module LastResort
   class Config
 
-    CONFIG_PATH = "#{PROJECT_ROOT}/config/config.rb"
+    CONFIG_PATH = "schedule.rb"
 
     attr_accessor :host,
                   :contacts,
