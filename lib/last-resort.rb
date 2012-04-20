@@ -21,4 +21,4 @@ get "/" do
   "Last Resort server running"
 end
 
-LastResort::WebHookCreator.create_hooks
+# LastResort::WebHookCreator.create_hooks
