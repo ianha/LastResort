@@ -7,7 +7,7 @@ module ContextIO
     VERSION = "2.0"
 
     def initialize(key='', secret='', server='https://api.context.io')
-      @consumer = OAuth::Consumer.new(key, secret, {:site => server, :sheme => :header})
+      @consumer = OAuth::Consumer.new(key, secret, {:site => server, :scheme => :header})
       @token    = OAuth::AccessToken.new @consumer
     end
 
