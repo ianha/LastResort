@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.name          = "last-resort"
   gem.require_paths = ["lib"]
-  gem.version       = Last::Resort::VERSION
+  gem.version       = LastResort::VERSION
 
   gem.add_dependency "sinatra", "~> 1.3"
   gem.add_dependency "twilio-ruby", "~> 3.6"
