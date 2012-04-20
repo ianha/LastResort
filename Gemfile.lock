@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    last-resort (0.0.4)
+    last-resort (0.0.6)
       gli (~> 1.6)
       oauth (~> 0.4)
       sinatra (~> 1.3)

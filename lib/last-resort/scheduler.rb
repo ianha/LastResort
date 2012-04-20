@@ -1,5 +1,3 @@
-require 'active_support/core_ext'
-
 module LastResort
   class Scheduler
 
@@ -19,8 +17,6 @@ module LastResort
         puts "Schedule found -- calling #{matched_schedule[:contacts]}"
         matched_schedule
       end
-
-
     end
 
     def match? schedule
