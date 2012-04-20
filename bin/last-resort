@@ -9,13 +9,7 @@ require 'version'
 include GLI
 
 program_desc 'Describe your application here'
-
 version LastResort::VERSION
-
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
 
 desc 'Describe new here'
 arg_name 'Describe arguments to new here'
@@ -26,7 +20,7 @@ command :new do |c|
   # c.desc 'Describe a flag to new'
   # c.default_value 'default'
   # c.flag :f
-  c.action do |global_options,options,args|
+  c.action do |global_options, options, args|
     raise "that command made no sense #{options}"
 
     # If you have any errors, just raise them
@@ -37,11 +31,11 @@ end
 desc 'Describe run here'
 arg_name 'Describe arguments to run here'
 command :run do |c|
-  c.action do |global_options,options,args|
+  c.action do |global_options, options, args|
   end
 end
 
-pre do |global,command,options,args|
+pre do |global, command, options, args|
   # Pre logic here
   # Return true to proceed; false to abort and not call the
   # chosen command
@@ -50,7 +44,7 @@ pre do |global,command,options,args|
   true
 end
 
-post do |global,command,options,args|
+post do |global, command, options, args|
   # Post logic here
   # Use skips_post before a command to skip this
   # block on that command only
