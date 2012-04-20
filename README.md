@@ -14,7 +14,8 @@ $ gem install last-resort
 ```sh
 $ last-resort new my-awesome-project
 ```
-This will create a scheduling project with a sample `my-awesome-project/config.rb` file.
+This will create a new monitoring project with a sample `my-awesome-project/schedule.rb` file, and all that's
+needed to get up and running on a Rack server (or Heroku) quickly.
 
 ### Example config.rb file
 
@@ -28,9 +29,9 @@ configure :host => "",
 
 # DEFINE YOUR CONTACTS
 
-contact :ian, ""
-contact :scott, ""
-contact :victor, ""
+contact :ian, "416-123-1234"
+contact :scott, "416-321-4321"
+contact :victor, "416-123-4321"
 
 # DEFINE WHAT EMAILS YOU WANT TO WATCH FOR
 
