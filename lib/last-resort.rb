@@ -1,7 +1,6 @@
 require "rubygems"
 require "bundler/setup"
 require "sinatra"
-require "awesome_print"
 
 FILE_DIR = File.expand_path(File.dirname(__FILE__))
 PROJECT_ROOT = File.expand_path("#{FILE_DIR}/..")
