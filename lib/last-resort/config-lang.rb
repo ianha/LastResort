@@ -1,14 +1,15 @@
 module LastResort
   class Config
 
-    CONFIG_PATH = "#{Dir.pwd}/schedule.rb"
+    CONFIG_PATH = "schedule.rb"
 
-    attr_accessor :host,
-                  :contacts,
-                  :matchers,
-                  :schedules,
-                  :twilio_sid, :twilio_auth_token,
-                  :contextio_account, :contextio_key, :contextio_secret
+    attr_accessor :host, # The host provided to services for webhooks
+                  :contacts, # A map of symbolized names to contact hashes
+                  :matchers, # A list of objects describing emails that trigger alerts
+                  :schedules, # A list of day and hour ranges and their associated contacts
+                  :local_utc_offset, # The developer's local timezone, used server side to determine when to call
+                  :twilio_sid, :twilio_auth_token, # Twilio creds
+                  :contextio_account, :contextio_key, :contextio_secret # Context.io creds
 
     def initialize
       @contacts = {}
@@ -31,6 +32,7 @@ module LastResort
       @contextio_key = params[:contextio_key]
       @contextio_secret = params[:contextio_secret]
       @contextio_account = params[:contextio_account]
+      @local_utc_offset = params[:local_utc_offset]
     end
 
     def contact name, phone
