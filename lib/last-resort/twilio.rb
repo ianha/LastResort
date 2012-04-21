@@ -22,7 +22,7 @@ module LastResort
 		# Array of strings representing numbers
 		attr_accessor :contacts, :client, :call, :index, :description, :handled
 
-		def initialize(contacts = [], description = "a general exception has occurred")
+		def initialize(contacts = [], description = "A general exception has occurred")
 			@contacts = contacts
 			@description = description
 			@client = Twilio::REST::Client.new ACCOUNT_SID, AUTH_TOKEN
@@ -34,7 +34,7 @@ module LastResort
 		def call_next
 			@index += 1
 
-			return false if @contacts.empty? || @index >= @contacts.size ||	@handled
+			return false if @handled || @index >= @contacts.size
 
 			# Make the call
 			@call = @client.account.calls.create(
