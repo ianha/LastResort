@@ -6,16 +6,14 @@ exception_session = nil
 # ====== CONTEXT-IO TWILIO ENDPOINTS
 
 post '/matched_email' do
-  return if LastResort::Scheduler.new.get_matching_schedule.nil?
+  scheduler = LastResort::Scheduler.new
+  matching_schedule = scheduler.get_matching_schedule
 
-  contact_names = LastResort::Scheduler.new.get_matching_schedule[:contacts]
-  contacts = []
-  contact_names.each do |name|
-    contacts.push(LastResort::Contact.new(name.to_s, CONFIG.contacts[name][:phone]))
-  end
+  return if matching_schedule.nil?
 
-  hookData = JSON.parse(request_body.read)
-  exception_session = LastResort::ExceptionSession.new(contacts, hookData["message_data"]["subject"])
+  matched_email = JSON.parse(request_body.read)
+  contacts = matching_schedule[:contacts].map { |name| LastResort::Contact.new(name.to_s, CONFIG.contacts[name][:phone]) }
+  exception_session = LastResort::ExceptionSession.new(contacts, matched_email["message_data"]["subject"])
   exception_session.notify
 end
 
@@ -50,13 +48,13 @@ post '/twilio/call' do
   response.text
 end
 
-# Called when a user's call ends.
+# Called when a user's call ends
 post '/twilio/status_callback' do
   puts "status_callback with #{params.inspect}"
   exception_session.call_next
 end
 
-# Callback to determine user input.
+# Called to respond to user phone input
 post '/twilio/gather_digits' do
   puts "gather_digits with #{params.inspect}"
 

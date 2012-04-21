@@ -3,10 +3,10 @@ module LastResort
     def self.create_hooks
       contextio = ContextIO::Connection.new(CONFIG.contextio_key, CONFIG.contextio_secret)
 
-      # Delete everything
+      # Delete everything...
       contextio.deleteAllWebhooks CONFIG.contextio_account
 
-      # then recreate based on the configuration
+      # ...then recreate based on the configuration
       CONFIG.matchers.each do |matcher|
         contextio.createWebhook CONFIG.contextio_account,
           :callback_url => "http://#{CONFIG.host}/matched_email",
