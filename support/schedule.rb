@@ -5,6 +5,7 @@ configure :host => "",
           :contextio_key => "",
           :contextio_secret => ""
 
+local_utc_offset -4
 
 # DEFINE YOUR CONTACTS
 
@@ -31,5 +32,6 @@ end
 
 between :all_hours, :on => :weekends do
   call [:ian, :scott, :victor]
+
 end
 
