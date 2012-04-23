@@ -22,7 +22,7 @@ end
 
 # Service check method
 get '/twilio' do
-  "twilio callbacks up and running!"
+  "Twilio callbacks up and running!"
 end
 
 # Performs a test call based on the user's configuration

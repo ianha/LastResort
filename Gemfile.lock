@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    last-resort (0.0.7)
+    last-resort (0.0.8)
       gli (~> 1.6)
       oauth (~> 0.4)
       sinatra (~> 1.3)
@@ -25,6 +25,8 @@ GEM
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
+    rack-test (0.6.1)
+      rack (>= 1.0)
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
@@ -53,5 +55,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   last-resort!
+  rack
+  rack-test
   rspec (~> 2.9.0)
   webmock (~> 1.8.5)
