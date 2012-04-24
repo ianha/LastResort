@@ -28,6 +28,7 @@ command :new do |c|
     # raise "that command made no sense"
 
     # WE NEED THIS! heroku plugins:install git://github.com/ddollar/heroku-config.git
+    # Also run bundle install!
   end
 end
 
