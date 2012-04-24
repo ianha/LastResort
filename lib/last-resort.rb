@@ -12,12 +12,6 @@ require 'last-resort/twilio'
 require 'last-resort/webhooks'
 require 'last-resort/controller'
 
-# SINATRA BASICS
-
-set :port, 80
-
-get "/" do
-  "Last Resort server running"
-end
+LastResort::Application.run! if $0 == __FILE__
 
 # LastResort::WebHookCreator.create_hooks
