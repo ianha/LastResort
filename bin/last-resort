@@ -3,32 +3,25 @@
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib/last-resort')
 
 require 'version'
+require 'commands'
 require 'rubygems'
+require 'colored'
 require 'gli';
 
 include GLI
 
 
-program_desc 'Describe your application here'
+program_desc 'Last Resort is a Ruby gem for monitoring critical emails sent by automated services (monit, logging packages, external ping services, etc.) and calling your phone to tell you about it.'
 version LastResort::VERSION
 
-desc 'Describe new here'
-arg_name 'Describe arguments to new here'
+desc 'Creates a new Last Resort project'
+arg_name 'project name'
 command :new do |c|
-  c.desc 'Describe a switch to new'
+  c.desc 'skip Q&A session'
   c.switch [:s, :skip]
 
-  # c.desc 'Describe a flag to new'
-  # c.default_value 'default'
-  # c.flag :f
   c.action do |global_options, options, args|
-    raise "that command made no sense #{options}"
-
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
-
-    # WE NEED THIS! heroku plugins:install git://github.com/ddollar/heroku-config.git
-    # Also run bundle install!
+    LastResort::Commands::q_and_a args[0]
   end
 end
 
