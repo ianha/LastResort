@@ -2,7 +2,7 @@ module LastResort
   class Scheduler
 
     def initialize
-      @config = CONFIG
+      @config = Config.instance
     end
 
     def get_matching_schedule
@@ -19,11 +19,11 @@ module LastResort
       end
     end
 
-    def match? schedule
+    def match?(schedule)
       match_hours?(schedule[:hours]) and match_days?(schedule[:days])
     end
 
-    def match_hours? hours, time_to_match = Time.now
+    def match_hours?(hours, time_to_match = Time.now)
       expanded_hours = []
       hours.each do |hour|
         expanded_hours += expand_if_possible(hour)
@@ -38,7 +38,7 @@ module LastResort
       end
     end
 
-    def match_days? days, time_to_match = Time.now
+    def match_days?(days, time_to_match = Time.now)
       day_of_week = time_to_match.strftime("%A").downcase.to_sym
 
       expanded_days = []
@@ -51,7 +51,7 @@ module LastResort
       end
     end
 
-    def expand_if_possible symbol
+    def expand_if_possible(symbol)
       case symbol
       when :all_hours
         [0..23]

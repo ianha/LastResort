@@ -21,11 +21,17 @@ module LastResort
     protected
 
     def run_config_in_context
+      raise "No config file found at #{CONFIG_PATH}" unless File.exist? CONFIG_PATH
+
       source = open(CONFIG_PATH).read
-      self.instance_eval source
+      self.instance_eval source, File.absolute_path(CONFIG_PATH)
     end
 
-    def configure params
+    def configure(params)
+      params = extract_env_configuration if params == :using_env
+
+      assert_complete_config
+
       @host = params[:host]
       @twilio_sid = params[:twilio_sid]
       @twilio_auth_token = params[:twilio_auth_token]
@@ -34,19 +40,19 @@ module LastResort
       @contextio_account = params[:contextio_account]
     end
 
-    def local_utc_offset offset_in_hours
+    def local_utc_offset(offset_in_hours)
       @local_utc_offset_in_seconds = offset_in_hours * 60 * 60
     end
 
-    def contact name, phone
+    def contact(name, phone)
       @contacts[name] = { :name => name, :phone => scrub_phone(phone) }
     end
 
-    def match matcher
+    def match(matcher)
       @matchers << matcher
     end
 
-    def between hours, options
+    def between(hours, options)
       hours = hours.is_a?(Array) ? hours : [hours]
 
       days = options[:on] || :everyday
@@ -63,17 +69,40 @@ module LastResort
       @current_schedule = nil
     end
 
-    def call contacts
+    def call(contacts)
       contacts = contacts.is_a?(Array) ? contacts : [contacts]
       @current_schedule[:contacts] = contacts
     end
 
-    def scrub_phone phone
+    class << self
+      def instance
+        @config ||= Config.new
+      end
+    end
+
+    private
+
+    def scrub_phone(phone)
       phone.gsub!(/\D/, '')
       phone = "+1#{phone}" unless phone.start_with? "+1"
       phone
     end
+
+    def extract_env_config
+      {
+        :host => ENV['HOST'],
+        :twilio_sid => ENV['TWILIO_SID'],
+        :twilio_auth_token => ENV['TWILIO_AUTH_TOKEN'],
+        :contextio_account => ENV['CONTEXTIO_ACCOUNT'],
+        :contextio_key => ENV['CONTEXTIO_KEY'],
+        :contextio_secret => ENV['CONTEXTIO_SECRET']
+      }
+    end
+
+    def assert_complete_config(params)
+      [:host, :twilio_sid, :twilio_auth_token, :contextio_account, :contextio_key, :contextio_secret ].each do |config_key|
+        raise "#{config_key} not found in configuration" if params[:config_key].nil?
+      end
+    end
   end
 end
-
-CONFIG = LastResort::Config.new

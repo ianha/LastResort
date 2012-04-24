@@ -1,7 +1,7 @@
 # The exception session keeps state between twilio and context-io webhooks. Currently, the system can only handle
 # one call session at a time, although we plan to change that in future versions.
 exception_session = nil
-
+config = LastResort::Config.instance
 
 # ====== CONTEXT-IO TWILIO ENDPOINTS
 
