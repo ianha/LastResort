@@ -1,10 +1,4 @@
-configure :host => "",
-          :twilio_sid => "",
-          :twilio_auth_token => "",
-          :contextio_account => "",
-          :contextio_key => "",
-          :contextio_secret => ""
-
+configure :using_env
 local_utc_offset -4
 
 # DEFINE YOUR CONTACTS
@@ -32,6 +26,4 @@ end
 
 between :all_hours, :on => :weekends do
   call [:ian, :scott, :victor]
-
 end
-

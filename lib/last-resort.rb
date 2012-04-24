@@ -4,13 +4,13 @@ require "sinatra"
 
 FILE_DIR = File.expand_path(File.dirname(__FILE__))
 
-# BRING IN DEPENDENCIES
-
-$LOAD_PATH << FILE_DIR
-Dir["#{FILE_DIR}/last-resort/*.rb"].each do |file_path|
-  require file_path
-end
-
+require 'last-resort/version'
+require 'last-resort/config-lang'
+require 'last-resort/contextio'
+require 'last-resort/scheduler'
+require 'last-resort/twilio'
+require 'last-resort/webhooks'
+require 'last-resort/controller'
 
 # SINATRA BASICS
 
