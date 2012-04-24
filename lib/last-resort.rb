@@ -1,6 +1,6 @@
 require "rubygems"
 require "bundler/setup"
-require "sinatra"
+require "sinatra/base"
 
 FILE_DIR = File.expand_path(File.dirname(__FILE__))
 
