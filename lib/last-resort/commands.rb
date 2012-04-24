@@ -16,20 +16,27 @@ module LastResort
       @project_path = project_name.to_s
       FileUtils.mkdir @project_path
 
-      FileUtils.cp "#{@last_resort_path}/support/dot_gitignore", "#{@project_path}/.gitignore")
-      FileUtils.cp @last_resort_path + '/support/config.ru'), (@project_path)
-      FileUtils.cp @last_resort_path + '/support/Gemfile'), (@project_path)
-      FileUtils.cp @last_resort_path + '/support/schedule.rb'), (@project_path)
+      FileUtils.cp "#{@last_resort_path}/support/dot_gitignore", "#{@project_path}/.gitignore"
+      FileUtils.cp "#{@last_resort_path}/support/config.ru", "#{@project_path}"
+      FileUtils.cp "#{@last_resort_path}/support/Gemfile", "#{@project_path}"
+      FileUtils.cp "#{@last_resort_path}/support/schedule.rb", "#{@project_path}"
 
+      puts "Creating project folder".green
       `cd #{project_name}`
-      `gem install heroku`
+      puts 'Installing heroku'.green
+      `gem install heroku --no-rdoc --no-ri`
       `heroku plugins:install git://github.com/ddollar/heroku-config.git`
-      `heroku login`
+      puts 'Please login to Heroku'
+      system 'heroku login'
       `bundle install`
+      puts 'Initiating git repo'.green
       `git init`
       `git add .`
       'git commit -m "init"'
-      `heroku create --stack cedar`
+      puts 'Creating Heroku project'.green
+      heroku_output = `heroku create --stack cedar`
+      @host = heroku_output.match(/http(.*).com\//)[0]
+      create_env
       `git push heroku master`
 
 
