@@ -3,21 +3,24 @@ external ping services, etc.) and calling your phone to tell you about it. Using
 available from [context.io](http://context.io), [twilio](http://twilio.com) and [heroku](http://heroku.com), 
 Last Resort can be deployed in a reliable environment and perform up to 1500 emergency calls for free.
 
-### Installation
+### Requirements
+* Ruby 1.9.x
+* Accounts with [context.io](http://context.io), [twilio](http://twilio.com) and [heroku](http://heroku.com), 
+  but don't worry -- our command line utility will help you through the process.
 
+### Installation
 ```sh
 $ gem install last-resort
 ```
 
 ### Getting started
-
 ```sh
 $ last-resort new my-awesome-project
 ```
 This will create a new monitoring project with a sample `my-awesome-project/schedule.rb` file, and all that's
 needed to get up and running on a Rack server (or Heroku) quickly.
 
-### Example config.rb file
+### Example schedule.rb file
 
 ```ruby
 configure :host => "",
@@ -52,6 +55,9 @@ between :all_hours, :on => :weekends do
   call [:ian, :scott, :victor]
 end
 ```
+
+### Roadmap
+If there is sufficient demand, we plan on adding more complicated schedules.
 
 ### Credit
 Victor Mota ([@vimota](http://www.twitter.com/vimota))  
