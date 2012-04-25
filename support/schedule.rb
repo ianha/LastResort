@@ -1,14 +1,14 @@
 configure :using_env
-local_utc_offset -4
+local_utc_offset %{utc_offset}
 
-# DEFINE YOUR CONTACTS
+# DEFINE YOUR CONTACTS (change this to be your contacts -- but first add us on Twitter :)
 
-contact :ian, ""
-contact :scott, ""
-contact :victor, ""
+contact :ian, "416-555-1234"    # @ianpha
+contact :scott, "416-555-1243"  # @scotthyndman
+contact :victor, "416-555-4321" # @vimota
 
 
-# DEFINE WHAT EMAILS YOU WANT TO WATCH FOR
+# DEFINE WHAT EMAILS YOU WANT TO WATCH FOR (regular expressions and exact string matches supported)
 
 match :subject => /server down/ # rackspace ping
 match :subject => /resource limit reached/ # monit
@@ -27,5 +27,3 @@ end
 between :all_hours, :on => :weekends do
   call [:ian, :scott, :victor]
 end
-
-
