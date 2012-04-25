@@ -6,7 +6,7 @@ Last Resort can be deployed in a reliable environment and perform up to 1500 eme
 ### Requirements
 * Ruby 1.9.x
 * Accounts with [context.io](http://context.io), [twilio](http://twilio.com) and [heroku](http://heroku.com), 
-  but don't worry -- our command line utility will help you through the process.
+  but don't worry -- our commandline utility will help you through the process.
 
 ### Installation
 ```sh
