@@ -15,7 +15,7 @@ describe 'LastResort' do
     last_response.body.should == "Twilio callbacks up and running!"
   end
 
-  describe "on initial phone call" do
+  describe "on a phone call" do
     before(:each) do
       @exception_session = double("LastResort::ExceptionSession")
       @exception_session.stub("callee_name").and_return("Ian Ha")
@@ -33,5 +33,34 @@ describe 'LastResort' do
   		doc = Nokogiri::XML(last_response.body)
   		doc.xpath('//Gather[@numDigits="1"]').size.should eq 1
   	end
+
+    it "should call the next person when a call ends" do
+      @exception_session.should_receive("call_next")
+      post '/twilio/status_callback', {}
+    end
+
+    context "when receiving user input" do
+
+      it "should hangup if selected digit is not 1" do
+        post '/twilio/gather_digits', {:Digits => "0"}
+        last_response.body.should eq Twilio::TwiML::Response.new { |r| r.Hangup }.text
+      end
+
+      it "should end the call queue when receiving a digit of 1" do
+        @exception_session.should_receive("end")
+        post '/twilio/gather_digits', {:Digits => "1"}
+      end
+
+      it "should say a final message and hangup when receiving a digit of 1" do
+        @exception_session.should_receive("end")
+        post '/twilio/gather_digits', {:Digits => "1"}
+        doc = Nokogiri::XML(last_response.body)
+        doc.xpath('//Hangup').size.should eq 1
+        doc.xpath('//Say').size.should eq 1
+      end
+
+    end
   end
+
+
 end

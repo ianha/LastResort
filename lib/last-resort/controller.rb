@@ -61,7 +61,6 @@ module LastResort
       content_type 'text/xml'
       puts "call with #{params.inspect}"
 
-      puts self
       if params[:CallStatus] == 'no-answer'
         return Twilio::TwiML::Response.new { |r| r.Hangup }.text
       end
@@ -90,11 +89,11 @@ module LastResort
 
       case digit
       when 1 # User handles call, so don't call anyone else
-        puts "User entered 1"
         Application.exception_session.end
+
         response = Twilio::TwiML::Response.new do |r|
-        r.Say "Thank you for handling this exception. Goodbye.", :voice => 'man'
-        r.Hangup
+          r.Say "Thank you for handling this exception. Goodbye.", :voice => 'man'
+          r.Hangup
         end
         return response.text
       else # Hangup this call and go to the next person
