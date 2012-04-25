@@ -1,9 +1,12 @@
 # CONFIGURATION
 
-# By default, configuration values are supplied by environment variables
+# By default, configuration values are supplied by environment variables, or read out of the
+# .env file in your project's directory. The .env is added to a .gitignore by default, because
+# keys should not be committed to source control.
 configure :using_env 
 
-# You can optionally replace the line above with values in place
+# You can optionally replace the line above with in-place configuration, but we don't recommend it,
+# because keys have no place in source control.
 # configure :host => "",
 #           :twilio_sid => "",
 #           :twilio_auth_token => "",
@@ -12,15 +15,14 @@ configure :using_env
 #           :contextio_secret => ""
 
 
-# SETS YOUR LOCAL TIMEZONE
-
+# Sets your local timezone, because your server may run in a different timezone, and you don't want 
+# to be called at the wrong times of day, do you?
 local_utc_offset %{utc_offset}
 
-# DEFINE YOUR CONTACTS (change this to be your contacts -- but first add us on Twitter :)
-
-contact :ian, "416-555-1234"    # @ianpha
-contact :scott, "416-555-1243"  # @scotthyndman
-contact :victor, "416-555-4321" # @vimota
+# Define contacts. Names must be symbols
+contact :ian, "416-555-1234"
+contact :scott, "416-555-1243"
+contact :victor, "416-555-4321"
 
 
 # DEFINE WHAT EMAILS YOU WANT TO WATCH FOR (regular expressions and exact string matches supported)
@@ -40,5 +42,14 @@ between :off_hours, :on => :weekdays do
 end
 
 between :all_hours, :on => :weekends do
-  call [:ian, :scott, :victor]
+  week = Time.now.week
+  case week % 3
+  when 0
+    call :ian
+  when 1
+    call :scott
+  when 2
+    call :victor
+  end
+  
 end
