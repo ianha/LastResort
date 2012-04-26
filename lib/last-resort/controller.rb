@@ -32,14 +32,15 @@ module LastResort
     # ====== CONTEXT-IO TWILIO ENDPOINTS
 
     post '/matched_email' do
-      scheduler = LastResort::Scheduler.new
+      scheduler = new_scheduler
       matching_schedule = scheduler.get_matching_schedule
 
       return if matching_schedule.nil?
 
       matched_email = JSON.parse(request_body.read)
       contacts = matching_schedule[:contacts].map { |name| LastResort::Contact.new(name.to_s, @config.contacts[name][:phone]) }
-      Application.exception_session = LastResort::ExceptionSession.new(contacts, matched_email["message_data"]["subject"])
+
+      Application.exception_session = new_exception_session(contacts, matched_email["message_data"]["subject"])
       Application.exception_session.notify
     end
 
@@ -99,6 +100,17 @@ module LastResort
       else # Hangup this call and go to the next person
         return Twilio::TwiML::Response.new {|r| r.Hangup}.text
       end
+    end
+
+    private
+
+    def new_scheduler
+      LastResort::Scheduler.new
+    end
+
+    def new_exception_session *args
+      puts "original called"
+      LastResort::ExceptionSession.new(*args)
     end
   end
 end
