@@ -83,8 +83,12 @@ module LastResort
     private
 
     def scrub_phone(phone)
-      phone.gsub!(/\D/, '')
-      phone = "+1#{phone}" unless phone.start_with? "+1"
+      if phone.start_with? "+"
+        phone = "+#{phone[1..-1].gsub(/\D/, '')}"
+      else
+        phone.gsub!(/\D/, '')
+      end
+      
       phone
     end
 
