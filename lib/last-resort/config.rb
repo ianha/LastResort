@@ -122,4 +122,4 @@ module LastResort
   end
 end
 
-Config.populate_env_if_required
+LastResort::Config.populate_env_if_required
