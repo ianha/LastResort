@@ -1,4 +1,4 @@
-# Todo: launchiee
+# Todo: launchiee and
 
 module LastResort
   class Commands
@@ -7,10 +7,15 @@ module LastResort
 
 
       # TODO preamble each with some info and a launchy launch if necessary
+      puts 'Last Resort is a Ruby gem for monitoring critical emails sent by automated services (monit, logging packages, external ping services, etc.) and calling your phone to tell you about it.'
+      puts ''
 
       @no_heroku = ask_about_heroku
       @twillio_sid = ask "#{'Twillio'.red} SID: "
       @twillio_auth_token = ask "#{'Twillio'.red} Auth Token: "
+
+      puts ''
+      puts "Please find the ContextIO key and secret tokens, as well as the ContextIO Account ID of the email account you wish to monitor."
       @contextio_key = ask "#{'ContextIO'.yellow} Key: "
       @contextio_secret = ask "#{'ContextIO'.yellow} Secret: "
       @contextio_account = ask "#{'ContextIO'.yellow} Account: "
@@ -43,7 +48,7 @@ module LastResort
       create_project_folder
       copy_files
       copy_schedule_and_add_utc
-      `cd #{project_name}`
+      Dir.chdir("#{@project_path}")
       set_up_heroku unless @no_heroku
       `bundle install`
       set_up_git unless @no_heroku
