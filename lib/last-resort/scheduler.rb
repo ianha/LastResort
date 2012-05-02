@@ -1,14 +1,17 @@
 module LastResort
   class Scheduler
 
+    ALL_DAYS = [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
+    WEEKENDS = [:saturday, :sunday]
+    WEEKDAYS = [:monday, :tuesday, :wednesday, :thursday, :friday]
+
+
     def initialize config = Config.new
       @config = config
     end
 
     def get_matching_schedule
-      matched_schedule = @config.schedules.find do |schedule|
-        match?(schedule)
-      end
+      matched_schedule = @config.schedules.find { |schedule| match?(schedule) }
 
       if matched_schedule.nil?
         puts "No matched schedule"
@@ -19,8 +22,8 @@ module LastResort
       end
     end
 
-    def match?(schedule)
-      match_hours?(schedule[:hours]) and match_days?(schedule[:days])
+    def match?(schedule, time_to_match = Time.now)
+      match_hours?(schedule[:hours], time_to_match) && match_days?(schedule[:days], time_to_match)
     end
 
     def match_hours?(hours, time_to_match = Time.now)
@@ -40,29 +43,33 @@ module LastResort
 
     def match_days?(days, time_to_match = Time.now)
       day_of_week = time_to_match.strftime("%A").downcase.to_sym
-
       expanded_days = []
       days.each do |day|
         expanded_days += expand_if_possible(day)
       end
 
-      expanded_days.any? do |day|
-        day == day_of_week
-      end
+      expanded_days.include? day_of_week
     end
 
-    def expand_if_possible(symbol)
-      case symbol
+    def expand_if_possible(symbol_or_time_unit)
+      return [symbol_or_time_unit] if
+        symbol_or_time_unit.is_a? Fixnum or symbol_or_time_unit.is_a? Range
+
+      case symbol_or_time_unit
       when :all_hours
         [0..23]
       when :off_hours
         [0..8, 17..23]
+      when :everyday
+        ALL_DAYS
       when :weekdays
-        [:monday, :tuesday, :wednesday, :thursday, :friday]
+        WEEKDAYS
       when :weekends
-        [:saturday, :sunday]
+        WEEKENDS
+      when :monday, :tuesday, :wednesday, :thursday, :friday
+        [symbol_or_time_unit]
       else
-        [symbol]
+        raise "#{symbol_or_time_unit} is not a recognized expandable symbol"
       end
     end
   end
