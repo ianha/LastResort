@@ -22,11 +22,15 @@ module LastResort
       end
     end
 
-    def match?(schedule, time_to_match = Time.now)
+    def zone_adjusted_time
+      Time.now.utc + @config.local_utc_offset_in_seconds
+    end
+
+    def match?(schedule, time_to_match = zone_adjusted_time)
       match_hours?(schedule[:hours], time_to_match) && match_days?(schedule[:days], time_to_match)
     end
 
-    def match_hours?(hours, time_to_match = Time.now)
+    def match_hours?(hours, time_to_match)
       expanded_hours = []
       hours.each do |hour|
         expanded_hours += expand_if_possible(hour)
@@ -41,7 +45,7 @@ module LastResort
       end
     end
 
-    def match_days?(days, time_to_match = Time.now)
+    def match_days?(days, time_to_match)
       day_of_week = time_to_match.strftime("%A").downcase.to_sym
       expanded_days = []
       days.each do |day|
