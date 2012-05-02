@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "thor", "~> 0.14"
   gem.add_dependency "oauth", "~> 0.4"
   gem.add_dependency "gli", "~> 1.6"
+  gem.add_dependency "colored"
   gem.add_dependency "launchy", "~> 2.1"
   gem.add_development_dependency 'rspec', '~> 2.9.0'
   gem.add_development_dependency 'webmock', '~> 1.8.5'

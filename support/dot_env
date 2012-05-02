@@ -4,3 +4,4 @@ TWILIO_AUTH_TOKEN=%{twilio_auth_token}
 CONTEXTIO_ACCOUNT=%{contextio_account}
 CONTEXTIO_KEY=%{contextio_key}
 CONTEXTIO_SECRET=%{contextio_secret}
+NO_HEROKU=%{no_heroku}
