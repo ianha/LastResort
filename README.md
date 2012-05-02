@@ -56,6 +56,6 @@ end
 If there is sufficient demand, we plan on adding more complicated schedules.
 
 ### Credit
-Victor Mota ([@vimota](http://www.twitter.com/vimota))  
-Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))  
-Ian Ha ([@ianpha](http://www.twitter.com/ianpha))  
+Victor Mota ([@vimota](http://www.twitter.com/vimota))
+Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))
+Ian Ha ([@ianpha](http://www.twitter.com/ianpha))
