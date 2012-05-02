@@ -1,6 +1,3 @@
-
-
-
 require 'sinatra/base'
 
 module LastResort
@@ -76,6 +73,7 @@ module LastResort
     # Called when a user's call ends
     post '/twilio/status_callback' do
       puts "status_callback with #{params.inspect}"
+
       Application.exception_session.call_next
     end
 
@@ -111,7 +109,6 @@ module LastResort
     end
 
     def new_exception_session *args
-      puts "original called"
       LastResort::ExceptionSession.new(*args)
     end
   end
