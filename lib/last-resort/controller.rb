@@ -32,7 +32,7 @@ module LastResort
 
       return if matching_schedule.nil?
 
-      matched_email = JSON.parse(request_body.read)
+      matched_email = JSON.parse(get_request_body)
       contacts = matching_schedule[:contacts].map { |name| LastResort::Contact.new(name.to_s, @config.contacts[name][:phone]) }
 
       Application.exception_session = new_exception_session(contacts, matched_email["message_data"]["subject"])
@@ -101,6 +101,10 @@ module LastResort
 
     def new_scheduler
       LastResort::Scheduler.new
+    end
+
+    def get_request_body
+      request_body.read
     end
 
     def new_exception_session *args

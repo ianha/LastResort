@@ -62,5 +62,39 @@ describe 'LastResort' do
     end
   end
 
+  describe "on receiving a matched email" do
+    before (:each) do
+      $exception_session = @exception_session = double("LastResort::ExceptionSession")
+      @exception_session.stub("callee_name").and_return("Ian Ha")
+      @exception_session.stub("description").and_return("+111")
+      $scheduler = @scheduler = double("LastResort::Scheduler")
+      @scheduler.should_receive(:get_matching_schedule).with(any_args()).and_return({:contacts => []})
+      @exception_session.should_receive(:notify)
+      JSON.should_receive(:parse).with(any_args()).and_return({"message_data" => {"subject" => 'foo'}})
+
+      class LastResort::Application
+        def new_scheduler
+          $scheduler
+        end
+
+        def new_exception_session(*args)
+          $exception_session
+        end
+
+        def get_request_body(*args)
+          ""
+        end
+      end
+
+      # puts LastResort::ExceptionSession.methods.sort
+      # LastResort::ExceptionSession.should_receive(:new).with(any_args()).and_return(@exception_session)
+      # LastResort::ExceptionSession.should_receive("exception_session").and_return(@exception_session)
+    end
+
+    it "should begin call sequence" do
+      post '/matched_email', {}
+    end
+  end
+
 
 end
