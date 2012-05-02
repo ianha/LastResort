@@ -8,11 +8,6 @@ require 'sinatra/base'
 module LastResort
   class Application < Sinatra::Base
 
-    enable :sesions
-
-    attr_accessor :exception_session
-
-
     def initialize
       super
     end

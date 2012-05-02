@@ -1,4 +1,4 @@
-HOST=%{host}
+LAST_RESORT_HOST=%{host}
 TWILIO_SID=%{twilio_sid}
 TWILIO_AUTH_TOKEN=%{twilio_auth_token}
 CONTEXTIO_ACCOUNT=%{contextio_account}

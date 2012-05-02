@@ -1,7 +1,7 @@
 module LastResort
   class WebHookCreator
     def self.create_hooks
-      config = Config.instance
+      config = Config.new
       contextio = ContextIO::Connection.new(config.contextio_key, config.contextio_secret)
 
       # Delete everything...

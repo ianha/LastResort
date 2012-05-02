@@ -1,6 +1,7 @@
 module LastResort
   class Config
 
+    DOT_ENV_PATH = ".env"
     CONFIG_PATH = "schedule.rb"
 
     attr_accessor :host, # The host provided to services for webhooks
@@ -28,7 +29,7 @@ module LastResort
     end
 
     def configure(params)
-      params = extract_env_configuration if params == :using_env
+      params = extract_env_config if params == :using_env
 
       assert_complete_config
 
@@ -75,8 +76,18 @@ module LastResort
     end
 
     class << self
-      def instance
-        @config ||= Config.new
+      def populate_env_if_required
+        # Check if ENV is already populated
+        return if ENV.has_key? 'LAST_RESORT_HOST'
+
+        # Raises an exception if a .env can't be found
+        raise "No .env file found in working directory" unless File.exists? DOT_ENV_PATH
+
+        # Set the environment variables
+        open(DOT_ENV_PATH).lines.each do |line|
+          parts = line.split('=')
+          ENV[parts[0]] = parts[1]
+        end
       end
     end
 
@@ -88,13 +99,13 @@ module LastResort
       else
         phone.gsub!(/\D/, '')
       end
-      
+
       phone
     end
 
     def extract_env_config
       {
-        :host => ENV['HOST'],
+        :host => ENV['LAST_RESORT_HOST'],
         :twilio_sid => ENV['TWILIO_SID'],
         :twilio_auth_token => ENV['TWILIO_AUTH_TOKEN'],
         :contextio_account => ENV['CONTEXTIO_ACCOUNT'],
@@ -110,3 +121,5 @@ module LastResort
     end
   end
 end
+
+Config.populate_env_if_required
