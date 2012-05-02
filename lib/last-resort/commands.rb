@@ -17,6 +17,7 @@ module LastResort
     def self.create_project project_name
       @project_path = project_name.to_s
 
+      # TODO this ends up feeling very tight. we need some line breaks in the right places
       puts 'Creating project folder'.green
       FileUtils.mkdir @project_path
 
