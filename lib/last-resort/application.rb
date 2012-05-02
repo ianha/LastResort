@@ -1,6 +1,8 @@
 require 'sinatra/base'
 
 module LastResort
+  # The main Sinatra application. Defines the API interface and webhooks called by Twilio and ContextIO
+  # for call handling logic and email matching, respectively.
   class Application < Sinatra::Base
 
     def initialize
@@ -26,6 +28,7 @@ module LastResort
 
     # ====== CONTEXT-IO TWILIO ENDPOINTS
 
+    # This is the webhook callback from context-io, called context-io has detected a matching pattern
     post '/matched_email' do
       scheduler = new_scheduler
       matching_schedule = scheduler.get_matching_schedule
@@ -99,6 +102,8 @@ module LastResort
     end
 
     private
+
+    # ===== The following methods are wrappers to make our code more testable.
 
     def new_scheduler
       LastResort::Scheduler.new

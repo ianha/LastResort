@@ -17,6 +17,8 @@ module LastResort
 		end
 	end
 
+	# Represents the email notification (exception) from ContextIO.
+	# Created when our webhook is called from ContextIO.
 	class ExceptionSession
 
 		# Array of strings representing numbers
@@ -30,7 +32,7 @@ module LastResort
 			@handled = false
 		end
 
-	    # Return false if call was not made
+	  # Call the next Contact in the queue. Returns false if call was not made
 		def call_next
 			@index += 1
 
