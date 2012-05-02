@@ -1,33 +1,25 @@
-# Todo: launchiee and
+require 'launchy'
 
 module LastResort
   class Commands
     def self.q_and_a project_name
       @last_resort_path = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../../')
 
-
-      # TODO preamble each with some info and a launchy launch if necessary
       puts 'Last Resort is a Ruby gem for monitoring critical emails sent by automated services (monit, logging packages, external ping services, etc.) and calling your phone to tell you about it.'
       puts ''
 
-      @no_heroku = ask_about_heroku
-      @twillio_sid = ask "#{'Twillio'.red} SID: "
-      @twillio_auth_token = ask "#{'Twillio'.red} Auth Token: "
-
-      puts ''
-      puts "Please find the ContextIO key and secret tokens, as well as the ContextIO Account ID of the email account you wish to monitor."
-      @contextio_key = ask "#{'ContextIO'.yellow} Key: "
-      @contextio_secret = ask "#{'ContextIO'.yellow} Secret: "
-      @contextio_account = ask "#{'ContextIO'.yellow} Account: "
+      @no_heroku = !(ask_yes_no "Do you want it to be hosted on #{'Heroku'.magenta} (recommended)? [Y/n] ")
+      get_twillio_info
+      get_contextio_info
 
       create_project project_name
     end
 
-    def self.ask_about_heroku
+    def self.ask_yes_no message
       begin
-        answer = ask "Do you want it to be hosted on #{'Heroku'.magenta} (recommended)? [Y/n] "
+        answer = ask message
       end while !(answer.casecmp('y') == 0 or answer.casecmp('n') == 0)
-      answer.casecmp('n') == 0
+      answer.casecmp('y') == 0
     end
 
     def self.ask message
@@ -40,6 +32,24 @@ module LastResort
       end while response.empty?
 
       response
+    end
+
+    def self.get_twillio_info
+      answer = ask_yes_no "Do you already have a #{'Twillio'.red} account? [Y/n]"
+      Launchy.open("http://www.twilio.com/try-twilio") unless answer
+      @twillio_sid = ask "#{'Twillio'.red} SID: "
+      @twillio_auth_token = ask "#{'Twillio'.red} Auth Token: "
+      puts ''
+    end
+
+    def self.get_contextio_info
+      answer = ask_yes_no "Do you already have a #{'ContextIO'.yellow} account? [Y/n]"
+      Launchy.open("http://console.context.io") unless answer
+      puts ''
+      puts "Please find the ContextIO key and secret tokens, as well as the ContextIO Account ID of the email account you wish to monitor."
+      @contextio_key = ask "#{'ContextIO'.yellow} Key: "
+      @contextio_secret = ask "#{'ContextIO'.yellow} Secret: "
+      @contextio_account = ask "#{'ContextIO'.yellow} Account: "
     end
 
     def self.create_project project_name
@@ -55,6 +65,7 @@ module LastResort
       create_heroku_project unless @no_heroku
       create_env
       `git push heroku master` unless @no_heroku
+      Dir.chdir("#{@last_resort_path}")
     end
 
     def self.create_project_folder
@@ -84,6 +95,8 @@ module LastResort
       `gem install heroku --no-rdoc --no-ri`
       `heroku plugins:install git://github.com/ddollar/heroku-config.git`
 
+      answer = ask "Do you already have a #{'Heroku'.magenta} account? [Y/n]"
+      Launchy.open("http://heroku.com") if answer.casecmp('n') == 0
       puts 'Please login to Heroku'
       system 'heroku login'
     end
@@ -102,16 +115,15 @@ module LastResort
     end
 
     def self.create_env
-      File.open(@project_path + '/.env', 'w') do |f|
-        f.puts File.open(@last_resort_path + '/support/dot_env').read % {
-          :host => (@no_heroku) ? '' : @host,
-          :twilio_sid => @twillio_sid,
-          :twillio_auth_token => @twillio_auth_token,
-          :contextio_account => @contextio_account,
-          :contextio_key => @contextio_key,
-          :contextio_secret => @contextio_secret
-        }
-      end
+      env_file = File.open(@project_path + '/.env', 'w')
+      env_file.puts File.open(@last_resort_path + '/support/dot_env').read % {
+        :host => (@no_heroku) ? '' : @host,
+        :twilio_sid => @twillio_sid,
+        :twillio_auth_token => @twillio_auth_token,
+        :contextio_account => @contextio_account,
+        :contextio_key => @contextio_key,
+        :contextio_secret => @contextio_secret
+      }
       puts 'Please remember to fill in the Host information in the .env file.'.yellow
     end
   end
