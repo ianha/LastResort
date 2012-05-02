@@ -12,11 +12,11 @@ module LastResort
                   :twilio_sid, :twilio_auth_token, # Twilio creds
                   :contextio_account, :contextio_key, :contextio_secret # Context.io creds
 
-    def initialize
+    def initialize skip_schedule_load = false
       @contacts = {}
       @matchers = []
       @schedules = []
-      run_config_in_context
+      run_config_in_context unless skip_schedule_load
     end
 
     protected
