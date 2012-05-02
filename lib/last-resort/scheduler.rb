@@ -2,9 +2,8 @@ module LastResort
   class Scheduler
 
     ALL_DAYS = [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
-    WEEKENDS = [:saturday, :sunday]
     WEEKDAYS = [:monday, :tuesday, :wednesday, :thursday, :friday]
-
+    WEEKENDS = [:saturday, :sunday]
 
     def initialize config = Config.new
       @config = config
