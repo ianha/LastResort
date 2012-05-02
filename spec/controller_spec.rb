@@ -63,12 +63,14 @@ describe 'LastResort' do
 
   describe "on receiving a matched email" do
     before (:each) do
-      $exception_session = @exception_session = double("LastResort::ExceptionSession")
-      @exception_session.stub("callee_name").and_return("Ian Ha")
-      @exception_session.stub("description").and_return("+111")
-      $scheduler = @scheduler = double("LastResort::Scheduler")
-      @scheduler.should_receive(:get_matching_schedule).with(any_args()).and_return({:contacts => []})
-      @exception_session.should_receive(:notify)
+      $exception_session = double("LastResort::ExceptionSession")
+      $exception_session.stub("callee_name").and_return("Ian Ha")
+      $exception_session.stub("description").and_return("+111")
+      $exception_session.should_receive(:notify)
+
+      $scheduler = double("LastResort::Scheduler")
+      $scheduler.should_receive(:get_matching_schedule).with(any_args()).and_return({:contacts => []})
+
       JSON.should_receive(:parse).with(any_args()).and_return({"message_data" => {"subject" => 'foo'}})
 
       # Here we break open the class so we can stub out certain methods. This, unfortunately, is
