@@ -39,7 +39,7 @@ module LastResort
     def configure(params)
       params = extract_env_config if params == :using_env
 
-      assert_complete_config
+      assert_complete_config params
 
       @host = params[:host]
       @twilio_sid = params[:twilio_sid]
