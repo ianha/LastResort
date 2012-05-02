@@ -1,6 +1,4 @@
 
-# The exception session keeps state between twilio and context-io webhooks. Currently, the system can only handle
-# one call session at a time, although we plan to change that in future versions.
 
 
 require 'sinatra/base'
@@ -12,6 +10,9 @@ module LastResort
       super
     end
 
+    # The exception session keeps state between twilio and context-io webhooks. Currently, the
+    # system can only handle one call session at a time, although we plan to change that in future
+    # versions.
     def self.exception_session
       @exception_session
     end
@@ -19,6 +20,8 @@ module LastResort
     def self.exception_session=(session)
       @exception_session = session
     end
+
+    # ====== SERVER CHECK ROUTE
 
     get "/" do
       "Last Resort server running"

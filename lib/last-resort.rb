@@ -10,7 +10,7 @@ require 'last-resort/contextio'
 require 'last-resort/scheduler'
 require 'last-resort/twilio'
 require 'last-resort/webhooks'
-require 'last-resort/controller'
+require 'last-resort/application'
 
 LastResort::Application.run! if $0 == __FILE__
 
