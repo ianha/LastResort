@@ -38,8 +38,6 @@ module LastResort
       @host = heroku_output.match(/http(.*).com\//)[0]
       create_env
       `git push heroku master`
-
-
     end
 
     def create_env
