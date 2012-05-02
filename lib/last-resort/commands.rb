@@ -115,14 +115,15 @@ module LastResort
     end
 
     def self.create_env
-      env_file = File.open(@project_path + '/.env', 'w')
+      env_file = File.open('.env', 'w')
       env_file.puts File.open(@last_resort_path + '/support/dot_env').read % {
         :host => (@no_heroku) ? '' : @host,
         :twilio_sid => @twillio_sid,
-        :twillio_auth_token => @twillio_auth_token,
+        :twilio_auth_token => @twillio_auth_token,
         :contextio_account => @contextio_account,
         :contextio_key => @contextio_key,
-        :contextio_secret => @contextio_secret
+        :contextio_secret => @contextio_secret,
+        :no_heroku => @no_heroku
       }
       puts 'Please remember to fill in the Host information in the .env file.'.yellow
     end
