@@ -3,6 +3,7 @@ require 'json'
 require 'net/http'
 
 module ContextIO
+  # Defines the API interface connection to ContextIO.
   class Connection
     VERSION = "2.0"
 

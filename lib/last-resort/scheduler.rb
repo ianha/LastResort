@@ -1,4 +1,5 @@
 module LastResort
+  # The schedule as defined in the 'schedule.rb' file.
   class Scheduler
 
     ALL_DAYS = [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
