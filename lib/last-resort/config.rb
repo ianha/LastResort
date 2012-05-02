@@ -1,4 +1,9 @@
 module LastResort
+  # The configuration class is used to build up contact and scheduling information for
+  # Last Resort.
+  #
+  # Instances of this class power the schedule.rb's DSL. By default it will attempt to
+  # load in and evaluate a schedule.rb file, but can also be manually configured.
   class Config
 
     DOT_ENV_PATH = ".env"
@@ -12,6 +17,8 @@ module LastResort
                   :twilio_sid, :twilio_auth_token, # Twilio creds
                   :contextio_account, :contextio_key, :contextio_secret # Context.io creds
 
+    # If skip_schedule_load is true, the config instance will not attempt to load
+    # schedule.rb. Useful for unit testing or programmatic configuration.
     def initialize skip_schedule_load = false
       @contacts = {}
       @matchers = []
