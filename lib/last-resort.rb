@@ -12,6 +12,5 @@ require 'last-resort/twilio'
 require 'last-resort/webhooks'
 require 'last-resort/application'
 
+# Run the application if called directly
 LastResort::Application.run! if $0 == __FILE__
-
-# LastResort::WebHookCreator.create_hooks
