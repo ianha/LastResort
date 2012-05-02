@@ -1,8 +1,8 @@
 module LastResort
   class Scheduler
 
-    def initialize
-      @config = Config.new
+    def initialize config = Config.new
+      @config = config
     end
 
     def get_matching_schedule
