@@ -4,6 +4,7 @@ describe LastResort::Scheduler do
 
   before :each do
     @config = LastResort::Config.new true
+    @config.local_utc_offset_in_seconds = 5 * 60 * 60
     @scheduler = LastResort::Scheduler.new @config
   end
 
@@ -49,6 +50,14 @@ describe LastResort::Scheduler do
         :hours => [0..23],
         :days => [:everyday]
       }
+    end
+
+    it "zone adjusted time should be in UTC" do
+      @scheduler.zone_adjusted_time.utc?.should == true
+    end
+
+    it "should match without a time argument" do
+      @scheduler.match?(@schedule).should == true
     end
 
     it "should match when the schedule contains a time that falls into the described times/days" do
