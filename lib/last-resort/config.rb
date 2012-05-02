@@ -104,14 +104,14 @@ module LastResort
     end
 
     def extract_env_config
-      {
-        :host => ENV['LAST_RESORT_HOST'],
+      Config.populate_env_if_required
+
+      { :host => ENV['LAST_RESORT_HOST'],
         :twilio_sid => ENV['TWILIO_SID'],
         :twilio_auth_token => ENV['TWILIO_AUTH_TOKEN'],
         :contextio_account => ENV['CONTEXTIO_ACCOUNT'],
         :contextio_key => ENV['CONTEXTIO_KEY'],
-        :contextio_secret => ENV['CONTEXTIO_SECRET']
-      }
+        :contextio_secret => ENV['CONTEXTIO_SECRET'] }
     end
 
     def assert_complete_config(params)
@@ -121,5 +121,3 @@ module LastResort
     end
   end
 end
-
-LastResort::Config.populate_env_if_required
