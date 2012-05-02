@@ -58,7 +58,6 @@ describe 'LastResort' do
         doc.xpath('//Hangup').size.should eq 1
         doc.xpath('//Say').size.should eq 1
       end
-
     end
   end
 
@@ -72,6 +71,11 @@ describe 'LastResort' do
       @exception_session.should_receive(:notify)
       JSON.should_receive(:parse).with(any_args()).and_return({"message_data" => {"subject" => 'foo'}})
 
+      # Here we break open the class so we can stub out certain methods. This, unfortunately, is
+      # necessary (until we figure out something better) because the "app" method above can only
+      # return a class, not a hacked up instance.
+      #
+      # Also, global variables. Sorry. :(
       class LastResort::Application
         def new_scheduler
           $scheduler
