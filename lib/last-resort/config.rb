@@ -3,7 +3,8 @@ module LastResort
   # Last Resort.
   #
   # Instances of this class power the schedule.rb's DSL. By default it will attempt to
-  # load in and evaluate a schedule.rb file, but can also be manually configured.
+  # load in and evaluate a schedule.rb file upon construction, but it can also be manually
+  # configured.
   class Config
 
     DOT_ENV_PATH = ".env"
