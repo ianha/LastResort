@@ -67,7 +67,9 @@ module LastResort
       create_heroku_project unless @no_heroku
       create_env
       `git push heroku master` unless @no_heroku
-
+      puts 'Next steps:'
+      puts "1) cd #{project_name}"
+      puts "2) last-resort run"
       Dir.chdir("#{old_dir}")
     end
 
