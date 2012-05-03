@@ -1,4 +1,5 @@
 require 'launchy'
+require 'config'
 
 module LastResort
   class Commands
@@ -140,6 +141,18 @@ module LastResort
         puts 'Settings for Last Resort are stored in a .env file that can be found in the project directory.'.yellow
         puts 'In order to run your project, you must modify the .env to include the domain name of your server.'.yellow 
       end
+    end
+
+    # ====== RUN
+
+    def self.run_heroku_or_rackup
+      begin
+        LastResort::Config::populate_env_if_required
+      rescue
+        puts 'Make sure to run "last-resort run" from a last-resort project'.yellow
+        return
+      end
+
     end
   end
 end
