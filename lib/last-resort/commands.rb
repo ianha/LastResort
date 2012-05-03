@@ -62,14 +62,22 @@ module LastResort
       Dir.chdir("#{@project_path}")
 
       `bundle install`
-      set_up_heroku unless ask_if_heroku
-      set_up_git unless @no_heroku
-      create_heroku_project unless @no_heroku
+
+      use_heroku = use_heroku?
+      if use_heroku
+        set_up_heroku
+        set_up_git
+        create_heroku_project
+      end
+
       create_env
-      `git push heroku master` unless @no_heroku
-      puts 'Next steps:'
+
+      `git push heroku master` if use_heroku
+
+      puts "\nNext steps:".yellow
       puts "1) cd #{project_name}"
       puts "2) last-resort run"
+
       Dir.chdir("#{old_dir}")
     end
 
@@ -98,9 +106,10 @@ module LastResort
       end
     end
 
-    def self.ask_if_heroku
+    def self.use_heroku?
       puts ''
       @no_heroku = !(ask_yes_no "Do you want it to be hosted on #{'Heroku'.magenta} (recommended)? [Y/n] ")
+      not @no_heroku
     end
 
     def self.set_up_heroku
