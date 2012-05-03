@@ -59,7 +59,6 @@ module LastResort
       copy_schedule_and_add_utc
       
       old_dir = Dir.pwd
-      puts old_dir
       Dir.chdir("#{@project_path}")
 
       `bundle install`
@@ -73,8 +72,7 @@ module LastResort
     end
 
     def self.create_project_folder
-      puts ''
-      puts "Creating project folder".green
+      puts "\nCreating project folder"
       FileUtils.mkdir @project_path
     end
 
@@ -91,8 +89,11 @@ module LastResort
 
     def self.copy_schedule_and_add_utc
       puts '* creating schedule.rb'.green
-      schedule_file = File.open(@project_path + '/schedule.rb', 'w')
-      schedule_file.puts File.open(@last_resort_path + '/support/schedule.rb').read % { :utc_offset => Time.now.utc_offset/60/60 }
+      schedule_file = open(@project_path + '/schedule.rb', 'w') do |f|
+        f.puts open(@last_resort_path + '/support/schedule.rb').read % { 
+          :utc_offset => Time.now.utc_offset/60/60 
+        }
+      end
     end
 
     def self.ask_if_heroku
@@ -125,17 +126,17 @@ module LastResort
     end
 
     def self.create_env
-      env_file = open('.env', 'w')
-      env_file.puts open(@last_resort_path + '/support/dot_env').read % {
-        :host => (@no_heroku) ? '' : @host,
-        :twilio_sid => @twillio_sid,
-        :twilio_auth_token => @twillio_auth_token,
-        :contextio_account => @contextio_account,
-        :contextio_key => @contextio_key,
-        :contextio_secret => @contextio_secret,
-        :no_heroku => @no_heroku
-      }
-      env_file.close
+      open('.env', 'w') do |f|
+        f.puts open(@last_resort_path + '/support/dot_env').read % {
+          :host => (@no_heroku) ? '' : @host,
+          :twilio_sid => @twillio_sid,
+          :twilio_auth_token => @twillio_auth_token,
+          :contextio_account => @contextio_account,
+          :contextio_key => @contextio_key,
+          :contextio_secret => @contextio_secret,
+          :no_heroku => @no_heroku
+        }
+      end
 
       if @no_heroku
         puts 'Settings for Last Resort are stored in a .env file that can be found in the project directory.'.yellow
