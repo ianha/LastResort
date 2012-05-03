@@ -57,7 +57,7 @@ module LastResort
       create_project_folder
       copy_files
       copy_schedule_and_add_utc
-      
+
       old_dir = Dir.pwd
       Dir.chdir("#{@project_path}")
 
@@ -90,8 +90,8 @@ module LastResort
     def self.copy_schedule_and_add_utc
       puts '* creating schedule.rb'.green
       schedule_file = open(@project_path + '/schedule.rb', 'w') do |f|
-        f.puts open(@last_resort_path + '/support/schedule.rb').read % { 
-          :utc_offset => Time.now.utc_offset/60/60 
+        f.puts open(@last_resort_path + '/support/schedule.rb').read % {
+          :utc_offset => Time.now.utc_offset/60/60
         }
       end
     end
@@ -140,7 +140,7 @@ module LastResort
 
       if @no_heroku
         puts 'Settings for Last Resort are stored in a .env file that can be found in the project directory.'.yellow
-        puts 'In order to run your project, you must modify the .env to include the domain name of your server.'.yellow 
+        puts 'In order to run your project, you must modify the .env to include the domain name of your server.'.yellow
       end
     end
 
@@ -154,6 +154,8 @@ module LastResort
         return
       end
 
+      @no_heroku = ENV['NO_HEROKU'].chomp == 'true'
+      (@no_heroku) ? run_heroku : run_rackup
     end
   end
 end
