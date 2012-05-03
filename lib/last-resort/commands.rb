@@ -116,7 +116,7 @@ module LastResort
       puts 'Initiating git repo'.green
       `git init`
       `git add .`
-      'git commit -m "Initializing git"'
+      `git commit -m "Initializing git"`
     end
 
     def self.create_heroku_project
