@@ -87,13 +87,13 @@ module LastResort
     end
 
     def self.copy_files
-      puts '* creating .gitignore'.green
+      puts '  creating .gitignore'
       FileUtils.cp "#{@last_resort_path}/support/dot_gitignore", "#{@project_path}/.gitignore"
 
-      puts '* creating config.ru'.green
+      puts '  creating config.ru'
       FileUtils.cp "#{@last_resort_path}/support/config.ru", "#{@project_path}"
 
-      puts '* creating Gemfile'.green
+      puts '  creating Gemfile'
       FileUtils.cp "#{@last_resort_path}/support/Gemfile", "#{@project_path}"
     end
 
