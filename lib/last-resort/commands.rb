@@ -1,4 +1,5 @@
 require 'launchy'
+require 'config'
 
 module LastResort
   class Commands
@@ -126,6 +127,18 @@ module LastResort
         :no_heroku => @no_heroku
       }
       puts 'Please remember to fill in the Host information in the .env file.'.yellow
+    end
+
+    # ====== RUN
+
+    def self.run_heroku_or_rackup
+      begin
+        LastResort::Config::populate_env_if_required
+      rescue
+        puts 'Make sure to run "last-resort run" from a last-resort project'.yellow
+        return
+      end
+
     end
   end
 end
