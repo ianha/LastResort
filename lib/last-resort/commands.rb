@@ -157,7 +157,11 @@ module LastResort
       end
 
       @no_heroku = ENV['NO_HEROKU'].chomp == 'true'
-      (@no_heroku) ? run_heroku : run_rackup
+      if @no_heroku
+        `rackup`
+      else
+        `git push heroku master`
+      end
     end
   end
 end
