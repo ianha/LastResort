@@ -21,6 +21,7 @@ command :new do |c|
   c.switch [:s, :skip]
 
   c.action do |global_options, options, args|
+    raise "Please specify a project name" if args.empty?
     LastResort::Commands::q_and_a args[0]
   end
 end
