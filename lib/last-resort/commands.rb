@@ -5,8 +5,7 @@ module LastResort
     def self.q_and_a project_name
       @last_resort_path = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../../')
 
-      puts "#{"Last Resort".green} is a Ruby gem for monitoring critical emails sent by automated services (monit, logging packages, external ping services, etc.) and calling your phone to tell you about it."
-      puts ''
+      puts "#{"Last Resort".green} is a Ruby gem for monitoring critical emails sent by automated services (monit, logging packages, external \nping services, etc.) and calling your phone to tell you about it.\n\n"
 
       get_twillio_info
       get_contextio_info
@@ -59,6 +58,7 @@ module LastResort
       copy_schedule_and_add_utc
       
       old_dir = Dir.pwd
+      puts old_dir
       Dir.chdir("#{@project_path}")
 
       `bundle install`
@@ -68,7 +68,7 @@ module LastResort
       create_env
       `git push heroku master` unless @no_heroku
 
-      Dir.chdir("#{@old_dir}")
+      Dir.chdir("#{old_dir}")
     end
 
     def self.create_project_folder
@@ -136,7 +136,10 @@ module LastResort
       }
       env_file.close
 
-      puts 'Please remember to fill in the Host information in the .env file.'.yellow if @no_heroku
+      if @no_heroku
+        puts 'Settings for Last Resort are stored in a .env file that can be found in the project directory.'.yellow
+        puts 'In order to run your project, you must modify the .env to include the domain name of your server.'.yellow 
+      end
     end
   end
 end
