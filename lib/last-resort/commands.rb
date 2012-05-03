@@ -5,10 +5,9 @@ module LastResort
     def self.q_and_a project_name
       @last_resort_path = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../../')
 
-      puts 'Last Resort is a Ruby gem for monitoring critical emails sent by automated services (monit, logging packages, external ping services, etc.) and calling your phone to tell you about it.'
+      puts "#{"Last Resort".green} is a Ruby gem for monitoring critical emails sent by automated services (monit, logging packages, external ping services, etc.) and calling your phone to tell you about it."
       puts ''
 
-      @no_heroku = !(ask_yes_no "Do you want it to be hosted on #{'Heroku'.magenta} (recommended)? [Y/n] ")
       get_twillio_info
       get_contextio_info
 
@@ -44,12 +43,12 @@ module LastResort
 
     def self.get_contextio_info
       answer = ask_yes_no "Do you already have a #{'ContextIO'.yellow} account? [Y/n]"
-      Launchy.open("http://console.context.io") unless answer
+      Launchy.open("http://www.context.io") unless answer
       puts ''
       puts "Please find the ContextIO key and secret tokens, as well as the ContextIO Account ID of the email account you wish to monitor."
       @contextio_key = ask "#{'ContextIO'.yellow} Key: "
       @contextio_secret = ask "#{'ContextIO'.yellow} Secret: "
-      @contextio_account = ask "#{'ContextIO'.yellow} Account: "
+      @contextio_account = ask "#{'ContextIO'.yellow} Email Account ID: "
     end
 
     def self.create_project project_name
@@ -58,17 +57,22 @@ module LastResort
       create_project_folder
       copy_files
       copy_schedule_and_add_utc
+      
+      old_dir = Dir.pwd
       Dir.chdir("#{@project_path}")
-      set_up_heroku unless @no_heroku
+
       `bundle install`
+      set_up_heroku unless ask_if_heroku
       set_up_git unless @no_heroku
       create_heroku_project unless @no_heroku
       create_env
       `git push heroku master` unless @no_heroku
-      Dir.chdir("#{@last_resort_path}")
+
+      Dir.chdir("#{@old_dir}")
     end
 
     def self.create_project_folder
+      puts ''
       puts "Creating project folder".green
       FileUtils.mkdir @project_path
     end
@@ -90,6 +94,11 @@ module LastResort
       schedule_file.puts File.open(@last_resort_path + '/support/schedule.rb').read % { :utc_offset => Time.now.utc_offset/60/60 }
     end
 
+    def self.ask_if_heroku
+      puts ''
+      @no_heroku = !(ask_yes_no "Do you want it to be hosted on #{'Heroku'.magenta} (recommended)? [Y/n] ")
+    end
+
     def self.set_up_heroku
       puts 'Installing heroku'.green
       `gem install heroku --no-rdoc --no-ri`
@@ -105,7 +114,7 @@ module LastResort
       puts 'Initiating git repo'.green
       `git init`
       `git add .`
-      'git commit -m "init"'
+      'git commit -m "Initializing git"'
     end
 
     def self.create_heroku_project
@@ -115,8 +124,8 @@ module LastResort
     end
 
     def self.create_env
-      env_file = File.open('.env', 'w')
-      env_file.puts File.open(@last_resort_path + '/support/dot_env').read % {
+      env_file = open('.env', 'w')
+      env_file.puts open(@last_resort_path + '/support/dot_env').read % {
         :host => (@no_heroku) ? '' : @host,
         :twilio_sid => @twillio_sid,
         :twilio_auth_token => @twillio_auth_token,
@@ -125,7 +134,9 @@ module LastResort
         :contextio_secret => @contextio_secret,
         :no_heroku => @no_heroku
       }
-      puts 'Please remember to fill in the Host information in the .env file.'.yellow
+      env_file.close
+
+      puts 'Please remember to fill in the Host information in the .env file.'.yellow if @no_heroku
     end
   end
 end
