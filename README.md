@@ -7,7 +7,7 @@ Last Resort can be deployed in a reliable environment and perform up to 1500 eme
 * Ruby 1.9.x
 * Accounts with [context.io](http://context.io), [twilio](http://twilio.com) and optionally [heroku](http://heroku.com),
   but don't worry -- our commandline utility will help you through the process.
-* git (if you're deploying to Heroku)
+* Git (if you're deploying to Heroku)
 
 ### Installation
 ```sh
@@ -56,6 +56,6 @@ end
 If there is sufficient demand, we plan on adding more complicated schedules.
 
 ### Credit
-Victor Mota ([@vimota](http://www.twitter.com/vimota))
-Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))
-Ian Ha ([@ianpha](http://www.twitter.com/ianpha))
+Victor Mota ([@vimota](http://www.twitter.com/vimota))  
+Scott Hyndman ([@scotthyndman](http://www.twitter.com/scotthyndman))  
+Ian Ha ([@ianpha](http://www.twitter.com/ianpha))  
